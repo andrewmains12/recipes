@@ -1,0 +1,1 @@
+(ns recipes.models.user)
