@@ -2,6 +2,7 @@
   (:require [noir.options :as options]
             [noir.statuses :as statuses]
             [hiccup.core :as hiccup]
+            [recipes.views.common :as common]
             )
   (:use [clojure.string :only [blank? split join]]
         [ring.middleware.reload :only [wrap-reload]])
@@ -34,7 +35,7 @@
     (when (nil? (find-ns ns-sym))
       (require ns-sym))
     (if-let [var (find-var ns-qualified-sym)]                 
-      (hiccup/html
+      (common/layout
        (if (fn? @var) (@var) @var))
       ;else
       (statuses/get-page 404)  ;render not found  
