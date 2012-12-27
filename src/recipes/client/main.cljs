@@ -1,26 +1,41 @@
 (ns recipes.client.main
   (:require [noir.cljs.client.watcher :as watcher]
             [clojure.browser.repl :as repl]
-            [crate.core :as crate])
-  (:use [jayq.core :only [$ append]])
+            [crate.core :as crate]
+            [recipes.client.views.recipes :as recipe-views]
+            )
+  (:use [jayq.core :only [$ append]]
+        [waltz.state :only [trigger]])
   (:use-macros [crate.def-macros :only [defpartial]]))
 
 ;;************************************************
 ;; Dev stuff
 ;;************************************************
 
-(watcher/init)
-;;(repl/connect "http://localhost:9000/repl")
+(defn dev-start []
+  (watcher/init)
+  (repl/connect "http://localhost:9000/repl"))
+  
 
 ;;************************************************
 ;; Code
 ;;************************************************
 
 (def $content ($ :#content))
+(defpartial up-and-running [foo]
+  [:p.alert (str "Foo is " foo)])
 
-(defpartial up-and-running []
-  [:p.alert "CLJS is compiled and active... Time to build something!"])
 
-(append $content (up-and-running))
+(defn main [& [mode]]
+  (if (= mode :dev)
+    (dev-start))
+
+  (append $content (up-and-running 2)))
+  
+
+;;TODO: put mode elsewhere
+(main :dev)
+
+
 
 
