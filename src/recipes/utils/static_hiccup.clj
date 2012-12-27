@@ -12,7 +12,7 @@
   "static-hiccup")
 
 (defn wrap-static-reloading [handler]
-  "Reload the "
+  "Reload the static hiccup folder"
   (if (options/dev-mode?)
     (wrap-reload handler {:dirs [*hiccup-dir*]})
         handler))
@@ -21,6 +21,7 @@
   "Render a hiccup resource"
   (fn
     ([namespace-str] (if (options/dev-mode?) :dev :prod))
+
     ([namespace-str mode] mode)))
 
 
@@ -39,8 +40,8 @@
       (statuses/get-page 404)  ;render not found  
   )))
 
-(defmethod render-hiccup :default
-  [namespace-str & mode]
-  (render-hiccup namespace-str :dev))
+;; (defmethod render-hiccup :default
+;;   [namespace-str & mode]
+;;   (render-hiccup namespace-str :dev))
 
 

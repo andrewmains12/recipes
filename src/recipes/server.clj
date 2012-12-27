@@ -13,11 +13,7 @@
 (def cljs-options {:advanced {:externs ["externs/jquery.js"]}})
 
 
-;;TODO: put this in some sort of configuration thingy and turn it off for prod
-                                        ;(server/add-middleware 'apply-templates)
-
-
-
+;;TODO: put this in some sort of configuration thingy 
 (server/add-middleware wrap-static-reloading)
 
 (defn -main [& m]
