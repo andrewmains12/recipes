@@ -33,7 +33,8 @@
     (when (nil? (find-ns ns-sym))
       (require ns-sym))
     (if-let [var (find-var ns-qualified-sym)]                 
-      (hiccup/html @var)
+      (hiccup/html
+       (if (fn? @var) (@var) @var))
       ;else
       (statuses/get-page 404)  ;render not found  
   )))
