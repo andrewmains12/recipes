@@ -7,7 +7,9 @@
 
 (defpage "/" []
          (common/layout
-           [:div#content]))
+          [:div#content
+           [:div#recipe-box]
+           ]))
 
 
 (defpage "/templates/*" {namespace-str :*}

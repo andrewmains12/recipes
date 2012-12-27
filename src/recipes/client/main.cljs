@@ -31,6 +31,7 @@
 (defn main [& [mode]]
   (if (= mode :dev)
     (dev-start))
+;  (em/at (ef/css-select [:#content]) (em/append 
   (state/trigger recipes-contr/sm :change-recipe 2)
   )
   

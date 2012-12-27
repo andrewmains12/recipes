@@ -35,7 +35,7 @@
     (when (nil? (find-ns ns-sym))
       (require ns-sym))
     (if-let [var (find-var ns-qualified-sym)]                 
-      (common/layout
+      (common/head
        (if (fn? @var) (@var) @var))
       ;else
       (statuses/get-page 404)  ;render not found  

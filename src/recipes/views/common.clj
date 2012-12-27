@@ -3,13 +3,20 @@
   (:use [noir.core :only [defpartial]]
         [hiccup.page :only [include-css html5]]))
 
+(defpartial head [& body]
+  (html5
+   [:head
+    [:title "recipes"]
+    (include-css "/css/reset.css")
+    (include-css "/css/default.css")]
+   body))
+
 (defpartial layout [& content]
-            (html5
-              [:head
-               [:title "recipes"]
-               (include-css "/css/reset.css")
-               (include-css "/css/default.css")]
-              [:body
-               [:div#wrapper
-                content]
-               (cljs/include-scripts :with-jquery)]))
+  (head
+   [:body
+    [:div#wrapper
+     content]
+    (cljs/include-scripts :with-jquery)]))
+
+
+  

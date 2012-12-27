@@ -1,4 +1,4 @@
-(ns recipes.remotes
+(ns recipes.views.remotes
   (:use [noir.fetch.remotes])
   )
 
@@ -6,8 +6,10 @@
   "Return recipe with id"
   ;;TODO: implement me
   [id]
-  {:ingredients [{:name "Chocolate" :amount 500 :units "lbs"}
-                 {:name "Vanilla" :amount 2 :units "tbsp"}]
+  {
+   :title "Pad Thai"
+   :ingredients [{:name "Noodles" :num 1 :unit "pkg"}
+                 {:name "Thai stuff" :num 2 :unit "tbsp"}]
    :instructions ["Do something"
                   "Do another thing"
                   "Profit!"]
