@@ -6,18 +6,22 @@
 
 (defelem ingredient []
   [:div.ingredient
-   [:span.name "Chocolate "]
-   [:span.num "500 "]
-   [:span.unit "lbs"]])
+   [:span.name [:ipsum "Chocolate "]]
+   [:span.num [:ipsum "500 "]]
+   [:span.unit [:ipsum "lbs"]]])
 
 
 (defelem recipe-box []
   [:div#recipe-box
    [:h2 "Recipe"]
-   [:div#ingredients]
-   [:h3 "Ingredients"]
-   (ingredient)
-   (ingredient)
+   [:div#ingredients
+    [:h3 "Ingredients"]
+
+    [:ipsum
+     [:li (ingredient)]
+     [:li (ingredient)]
+     ]
+    ]
    [:div#instructions]
    [:div#picture]])
 
