@@ -3,7 +3,9 @@
             [noir.cljs.core :as cljs]
 
             )
-  (:use [one.templates :only [apply-templates]])
+  (:use [one.templates :only [apply-templates]]
+        [recipes.utils.static-hiccup :only [wrap-static-reloading]]
+        )
   )
 
 (server/load-views-ns 'recipes.views)
@@ -16,6 +18,7 @@
 
 
 
+(server/add-middleware wrap-static-reloading)
 
 (defn -main [& m]
   (let [mode (keyword (or (first m) :dev))

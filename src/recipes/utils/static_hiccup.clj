@@ -3,9 +3,19 @@
             [noir.statuses :as statuses]
             [hiccup.core :as hiccup]
             )
-  (:use [clojure.string :only [blank? split join]])
+  (:use [clojure.string :only [blank? split join]]
+        [ring.middleware.reload :only [wrap-reload]])
   )
 
+;;xxx TODO: config this
+(def ^:dynamic *hiccup-dir* "Directory to search for code containing static hiccup vectors in"
+  "static-hiccup")
+
+(defn wrap-static-reloading [handler]
+  "Reload the "
+  (if (options/dev-mode?)
+    (wrap-reload handler {:dirs [*hiccup-dir*]})
+        handler))
 
 (defmulti render-hiccup
   "Render a hiccup resource"
@@ -17,13 +27,15 @@
 (defmethod render-hiccup :dev
   [namespace-str & mode]
   (let [elems (filter #(not (blank? %)) (split namespace-str #"/"))
-        ns-qualified-sym (symbol (str (join "." (butlast elems)) "/" (last elems)))
-        ]          
-    (if-let [var (find-var ns-qualified-sym)]
-      (hiccup/html
-       (if (fn? var) (@var) @var))
+        ns-sym (symbol (join "." (butlast elems)))
+        ns-qualified-sym (symbol (str ns-sym "/" (last elems)))
+        ]
+    (when (nil? (find-ns ns-sym))
+      (require ns-sym))
+    (if-let [var (find-var ns-qualified-sym)]                 
+      (hiccup/html @var)
       ;else
-      (statuses/get-page 404)  ;render not found       
+      (statuses/get-page 404)  ;render not found  
   )))
 
 (defmethod render-hiccup :default
