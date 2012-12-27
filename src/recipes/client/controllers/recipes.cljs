@@ -4,7 +4,9 @@
             [waltz.state :as state])
 
   (:require-macros [fetch.macros :as fm])
-  (:use-macros [waltz.macros :only [in out defstate defevent]])
+  (:use-macros [waltz.macros :only [in out defstate defevent]]
+               [fetch.macros :only [letrem remote]]
+               )
   (:use [recipes.client.views.recipes :only [render]])
   )
   
@@ -22,9 +24,10 @@
     ;;Events
     (defevent me :change-recipe [new-recipe-id]
       (state/set me :loading)
-      (letrem
-       [new-recipe (recipe new-recipe-id)]
-       (trigger me :loaded new-recipe)))
+                                        ; (letrem
+
+      (remote (recipe new-recipe-id) [new-recipe]
+              (state/trigger me :loaded new-recipe)))
 
     (defevent me :loaded [recipe]
       (state/unset me :loading)
