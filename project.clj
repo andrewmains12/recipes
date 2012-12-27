@@ -8,4 +8,7 @@
                  [crate "0.2.3"]
                  [noir "1.3.0"]]
   :cljsbuild {:builds [{}]}
-  :main ^{:skip-aot true} recipes.server)
+  :source-paths ["src" "static-hiccup"]
+  :main ^{:skip-aot true} recipes.server
+  )
+
