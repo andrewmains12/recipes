@@ -8,8 +8,8 @@
   [id]
   {
    :title "Pad Thai"
-   :ingredients [{:name "Noodles" :num 1 :unit "pkg"}
-                 {:name "Thai stuff" :num 2 :unit "tbsp"}]
+   :ingredients [{:name "Noodles" :num "1" :unit "pkg"}
+                 {:name "Thai stuff" :num "2" :unit "tbsp"}]
    :instructions ["Do something"
                   "Do another thing"
                   "Profit!"]

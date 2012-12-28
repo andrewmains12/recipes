@@ -8,7 +8,7 @@
 (defpage "/" []
          (common/layout
           [:div#content
-           [:div#recipe-box]
+           [:div#recipe-box]           
            ]))
 
 

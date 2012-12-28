@@ -7,35 +7,64 @@
             )
   (:require-macros [enfocus.macros :as em])
   (:use [jayq.core :only [$ append text html]]
-        [waltz.state :only [trigger]])    
+        [waltz.state :only [trigger]]
+;        [recipes.client.controllers.recipes :only [sm]]
+        )    
   (:use-macros [crate.def-macros :only [defpartial]]))
 
 
-(em/deftemplate ingredient-template "/templates/recipes/ingredient" [{:keys [name num unit]}]
-  [:span.name] (em/content name)
-  [:span.num] (em/content num)
-  [:span.unit] (em/content unit)
+(defn ->str-values
+  [item]
+    (cond
+     (map? item) (zipmap (keys item) (map ->str-values (vals item)))
+     (coll? item) (map ->str-values item)
+     :else (str item)))
+
+
+
+
+(em/deftemplate ingredient-base "/templates/recipes/ingredient"
+  []
   )
 
+(em/deftemplate ingredient-template "/templates/recipes/ingredient"
+  [{:keys [name num unit]}]
+  ["span.name"] (em/content name)
+  ["span.num"] (em/content num)
+  ["span.unit"] (em/content unit)
+  )
 
-(em/deftemplate recipe-template "/templates/recipes/recipe" [{:keys [title ingredients instructions]}]
+(def recipe   {
+   :title "Pad Thai"
+   :ingredients [{:name "Noodles" :num "1" :unit "pkg"}
+                 {:name "Thai stuff" :num "2" :unit "tbsp"}]
+   :instructions ["Do something"
+                  "Do another thing"
+                  "Profit!"]
+   })
+
+(em/deftemplate recipe-template "/templates/recipes/recipe" ;[:div.recipe]
+  [{:keys [title ingredients instructions]}]
   [:h2] (em/content title)
-  ;; [":div#ingredients :h3"] (em/after
-  ;;                         (em/clone-for [ingr ingredients]
-  ;;                                       (ingredient-template ingr)))
-  )
-
-
+  ["div#ingredients"] (em/append
+                       (map #(ingredient-template %) ingredients)))
+                                                                             
 ;; (em/defaction render-recipe [recipe]  
 ;;    (em/append (:title recipe)))
+
 (defn render-recipe [recipe]
-  (em/at js/document
-         [:div#recipe-box] (em/append (recipe-template recipe))))
+  (em/wait-for-load (em/at js/document
+                           [:div#recipe-box] (em/append (recipe-template recipe))
+                           )))
 
   ;; (em/at js/document
   ;;     [:div#recipe-box] (em/append (recipe-template recipe))))
 
 ;                     (recipe-template {:title "Foo"})))
+
+
+(defn foo []
+  (render-recipe recipe))
 
 
 ;;TODO: move this over to the controller
@@ -49,9 +78,11 @@
 
 (defmethod render #{:normal}
   [_ recipe]
-  (em/wait-for-load (render-recipe recipe))
+  (render-recipe (->str-values recipe))
   )
 
 
-
+(defmethod render :default
+  [sm & rest]
+  (js/alert "Unknown state!"))
 

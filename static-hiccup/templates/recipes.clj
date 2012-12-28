@@ -12,16 +12,20 @@
 
 
 (defelem recipe []
-  [:h2 "Grandma's awesome thing"])
-  ;; [:div#ingredients
-  ;;  [:h3 "Ingredients"]
-  ;;  ;; [:ipsum
-  ;;  ;;  [:li (ingredient)]
-  ;;  ;;  [:li (ingredient)]
-  ;;  ;;  ]
-  ;;  ]
-  ;; [:div#instructions]
-  ;; [:div#picture])
+  [:div.recipe
+   [:h2 "Grandma's awesome thing"]
+   [:div#ingredients
+    [:h3 "Ingredients"]
+    ;; [:ipsum
+    ;;  [:li (ingredient)]
+    ;;  [:li (ingredient)]
+    ;;  ]
+    ]
+   [:div#instructions
+    [:h3 "Instructions"]
+    ]
+   [:div#picture]
+   ])
 
 
 

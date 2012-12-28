@@ -23,16 +23,13 @@
     
     ;;Events
     (defevent me :change-recipe [new-recipe-id]
-      (state/set me :loading)
-                                        ; (letrem
-
+      (state/set me :loading)      
       (remote (recipe new-recipe-id) [new-recipe]
               (state/trigger me :loaded new-recipe)))
 
     (defevent me :loaded [recipe]
       (state/unset me :loading)
-      (state/set me :normal recipe))
-    
+      (state/set me :normal recipe))    
     me))
 
 
