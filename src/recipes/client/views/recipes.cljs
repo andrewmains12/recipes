@@ -12,7 +12,7 @@
         )    
   (:use-macros [crate.def-macros :only [defpartial]]))
 
-
+;;xxx TODO: get some better solution than this
 (defn ->str-values
   [item]
     (cond
@@ -22,10 +22,11 @@
 
 
 
+;; (defn make-list [content]
+;;   "Make an html list out of content"
+  
 
-(em/deftemplate ingredient-base "/templates/recipes/ingredient"
-  []
-  )
+
 
 (em/deftemplate ingredient-template "/templates/recipes/ingredient"
   [{:keys [name num unit]}]
@@ -33,6 +34,12 @@
   ["span.num"] (em/content num)
   ["span.unit"] (em/content unit)
   )
+
+(em/deftemplate instruction-template "/templates/recipes/instruction"
+  [instruction]
+  ["li.instruction"] (em/content instruction)
+  )
+
 
 (def recipe   {
    :title "Pad Thai"
@@ -47,7 +54,11 @@
   [{:keys [title ingredients instructions]}]
   [:h2] (em/content title)
   ["div#ingredients"] (em/append
-                       (map #(ingredient-template %) ingredients)))
+                       (map #(ingredient-template %) ingredients))
+
+  ["div#instructions"] (em/append
+                        (map #(instruction-template %) instructions))
+  )
                                                                              
 ;; (em/defaction render-recipe [recipe]  
 ;;    (em/append (:title recipe)))
@@ -61,10 +72,6 @@
   ;;     [:div#recipe-box] (em/append (recipe-template recipe))))
 
 ;                     (recipe-template {:title "Foo"})))
-
-
-(defn foo []
-  (render-recipe recipe))
 
 
 ;;TODO: move this over to the controller

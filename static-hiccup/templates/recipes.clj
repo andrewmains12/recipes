@@ -10,6 +10,8 @@
    [:span.num "500 "]
    [:span.unit "lbs"]])
 
+(defelem instruction []
+  [:li.instruction "Do things"])
 
 (defelem recipe []
   [:div.recipe
