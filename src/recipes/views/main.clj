@@ -10,7 +10,8 @@
           [:div#content
            [:div#recipe-box]           
            ]))
+(defpage "/templates/*" {namespace-str :* :as params};{namespace-str :* :as params}
+  (apply render-hiccup (cons (str "templates/" namespace-str)
+                             (flatten (seq params))))) ;;xxx This is kind of hacky--it would be better to match the entire URI
 
 
-(defpage "/templates/*" {namespace-str :*}
-  (render-hiccup (str "templates/" namespace-str))) ;;xxx This is kind of hacky--it would be better to match the entire URI

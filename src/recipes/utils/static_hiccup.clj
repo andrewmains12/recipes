@@ -20,23 +20,23 @@
 
 (defmulti render-hiccup
   "Render a hiccup resource"
-  (fn
-    ([namespace-str] (if (options/dev-mode?) :dev :prod))
-
-    ([namespace-str mode] mode)))
-
+  (fn [namespace-str & {:keys [mode] :or {mode :dev}}]
+    mode))
 
 (defmethod render-hiccup :dev
-  [namespace-str & mode]
+  [namespace-str & {:keys [style] :as options}]
   (let [elems (filter #(not (blank? %)) (split namespace-str #"/"))
         ns-sym (symbol (join "." (butlast elems)))
         ns-qualified-sym (symbol (str ns-sym "/" (last elems)))
         ]
     (when (nil? (find-ns ns-sym))
       (require ns-sym))
-    (if-let [var (find-var ns-qualified-sym)]                 
-      (hiccup/html
-       (if (fn? @var) (@var) @var))
+    (if-let [var (find-var ns-qualified-sym)]
+      (let [val (if (fn? @var) (@var) @var)]        
+        (if style
+          (common/head val)
+          (hiccup/html val)))
+       
       ;else
       (statuses/get-page 404)  ;render not found  
   )))
