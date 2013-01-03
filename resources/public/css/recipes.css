@@ -1,0 +1,48 @@
+div.recipe h2 {
+   font-size: 180%;
+   font-weight: 10cm;
+   
+}
+div.recipe h3 {
+   font-size: 130%;
+   font-weight: 6cm;
+}
+
+div#recipe-box {
+   width: 80%;
+   margin: 0px auto;
+   border: 2px solid;
+   padding: 30px;}
+
+li.ingredient {
+   padding: 3px;
+   margin-left: 1cm;
+}
+li.instruction {
+   padding: 3px;
+   margin-left: 1cm;
+}
+
+
+
+
+div#recipe-box div#ingredients ul {
+   display: table;
+   width: 70%;
+/*   margin: 0px auto;*/
+}
+
+div#recipe-box div#ingredients ul .ingredient {
+  display: table-row list-item;
+}
+
+div#recipe-box div#ingredients ul .ingredient span {
+   display: table-cell;}
+
+div#recipe-box div#ingredients ul .ingredient span.name {
+   padding-right: 5px;}
+
+div#recipe-box div#ingredients ul .ingredient span.num {
+   padding-right: 5px;
+}
+

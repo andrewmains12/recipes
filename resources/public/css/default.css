@@ -1,5 +1,9 @@
-body { padding: 75px 80px; background: #454545; color: #b2b2b2; font-family: "Helvetica Neue", "Verdana", sans-serif;}
-a {text-decoration:none; color: #b2b2b2; }
+
+@import "recipes.css";
+
+
+body { padding: 75px 80px; background: #AFDCEC; color: #000000; font-family: "Helvetica Neue", "Verdana", sans-serif;}
+a {text-decoration:none; color: #000000; }
 
 #wrapper { margin:auto; width: 1024px; }
 
