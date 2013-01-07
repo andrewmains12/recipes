@@ -53,6 +53,7 @@
       ]
      ]]
    [:div#picture
+    [:img]
     [:ipsum
      (picture)]
     ]

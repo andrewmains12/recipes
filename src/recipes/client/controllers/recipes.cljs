@@ -7,12 +7,14 @@
   (:use-macros [waltz.macros :only [in out defstate defevent]]
                [fetch.macros :only [letrem remote]]
                )
-  (:use [recipes.client.views.recipes :only [render]])
-  )
+  (:use [recipes.client.views.recipes :only [render-recipe-box]]))
+  
   
 ;;TODO: DRY state machine definitions up with a macro  
 (def recipe-box
-  (let [me (state/machine "recipe-box")]
+  (let [me (state/machine "recipe-box")
+        render render-recipe-box
+        ]
     ;;States
     (defstate me :normal
       (in [recipe]
@@ -36,7 +38,9 @@
 
 
 (def recipe-index
-  (let [me (state/machine "recipe-list")]
+  (let [me (state/machine "recipe-list")
+        render render-recipe-index
+        ]
     (defstate me :loading
       (in []
           (render me)))

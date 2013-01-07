@@ -8,10 +8,14 @@
 (defpage "/" []
          (common/layout
           [:div#content
-           [:div#recipe-box]           
            ]))
 (defpage "/templates/*" {namespace-str :* :as params};{namespace-str :* :as params}
   (apply render-hiccup (cons (str "templates/" namespace-str)
-                             (flatten (seq params))))) ;;xxx This is kind of hacky--it would be better to match the entire URI
+                             (flatten (seq params)))))
+
+;; (defpage "/css/*" {namespace-str :* :as params}
+;;   (apply render-hiccup (cons (str "templates/" namespace-str)
+;;                              (flatten (seq params)))))
+;;xxx This is kind of hacky--it would be better to match the entire URI
 
 

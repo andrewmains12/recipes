@@ -20,14 +20,6 @@
      (coll? item) (map ->str-values item)
      :else (str item)))
 
-
-
-;; (defn make-list [content]
-;;   "Make an html list out of content"
-  
-
-
-
 (em/deftemplate ingredient-template "/templates/recipes/ingredient"
   [{:keys [name num unit]}]
   ["span.name"] (em/content name)
@@ -41,55 +33,62 @@
   )
 
 
-(def recipe   {
-   :title "Pad Thai"
-   :ingredients [{:name "Noodles" :num "1" :unit "pkg"}
-                 {:name "Thai stuff" :num "2" :unit "tbsp"}]
-   :instructions ["Do something"
-                  "Do another thing"
-                  "Profit!"]
-   })
-
 (em/deftemplate recipe-template "/templates/recipes/recipe" ;[:div.recipe]
-  [{:keys [title ingredients instructions]}]
+  [{:keys [title ingredients instructions image-url]}]
   [:h2] (em/content title)
-  ["div#ingredients"] (em/append
-                       (map #(ingredient-template %) ingredients))
-
-  ["div#instructions"] (em/append
-                        (map #(instruction-template %) instructions))
+  ;; [:img] (em/set-attr :src image-url)
+  ["div#ingredients ul"] (em/append
+                          (map #(ingredient-template %) ingredients))
+                            
+  ["div#instructions ul"] (em/append
+                           (map #(instruction-template %) instructions))
   )
-                                                                             
+
+(em/deftemplate recipes-index "/templates/recipes/index"
+  [recipes]
+)  
 ;; (em/defaction render-recipe [recipe]  
 ;;    (em/append (:title recipe)))
 
-(defn render-recipe [recipe]
-  (em/wait-for-load (em/at js/document
-                           [:div#recipe-box] (em/append (recipe-template recipe))
-                           )))
-
-  ;; (em/at js/document
-  ;;     [:div#recipe-box] (em/append (recipe-template recipe))))
-
-;                     (recipe-template {:title "Foo"})))
-
+;; (defn render-recipe [recipe]
+;;   )
 
 ;;TODO: move this over to the controller
-(defmulti render
-  "Render the recipes based on the current state of the application"
-  (fn [state-machine & rest] (state/current state-machine)))
 
-(defmethod render #{:loading}
+
+
+(defmulti render-recipe-box
+  "Render the recipes based on the current state of the application"
+  #(state/current %)
+  )
+
+(defmethod render-recipe-box #{:loading}
   [_ ]
   )
 
-(defmethod render #{:normal}
+(defmethod render-recipe-box #{:normal}
   [_ recipe]
-  (render-recipe (->str-values recipe))
-  )
+  (em/wait-for-load (em/at js/document
+                           [:div#recipe-box] (em/content
+                                              (recipe-template (->str-values recipe)))
+                           )))
 
-
-(defmethod render :default
+(defmethod render-recipe-box :default
   [sm & rest]
-  (js/alert "Unknown state!"))
+  (js/alert (str "Unknown state!" (state/current sm))))
 
+
+;; (defrender "recipe-index"
+;;   (render-state #{:normal} [recipe]
+                                
+(defmulti render-recipe-index 
+  #(state/current %))
+
+(defmethod render-recipe-index #{:unselected}
+  [_ recipes]
+  (em/wait-for-load (em/at js/document
+                           [:div#recipes-index] (em/content
+                                                 (recipe-index (->str-values recipes))
+                                                 )
+                           )))
+  

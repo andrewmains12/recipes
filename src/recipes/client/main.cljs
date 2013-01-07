@@ -2,13 +2,12 @@
   (:require [noir.cljs.client.watcher :as watcher]
             [clojure.browser.repl :as repl]
             [crate.core :as crate]
-            [waltz.state :as state]            
+            [waltz.state :as state]
 ;            [recipes.client.views.recipes :as recipe-views]
-            [recipes.client.controllers.recipes :as recipes-contr]
-            
+            [recipes.client.controllers.recipes :as recipes-contr]                       
             )
-  (:use [jayq.core :only [$ append]]
-        [recipes.client.views.recipes :only [foo recipe]]
+  (:require-macros [enfocus.macros :as em])
+  (:use [recipes.client.views.recipes :only [foo recipe]]        
         ))
   
 
@@ -25,7 +24,7 @@
 ;; Code
 ;;************************************************
 
-(def $content ($ :#content))
+
 ;; (defpartial up-and-running [foo]
 ;;   [:p.alert (str "Foo is " foo)])
 
@@ -33,13 +32,12 @@
 (defn main [& [mode]]
   (if (= mode :dev)
     (dev-start))
-                                        ;  (em/at (ef/css-select [:#content]) (em/append
-                                        ;  (foo)
-;  (state/trigger recipes-contr/sm :loaded recipe)
-  (state/trigger recipes-contr/sm :change-recipe 2)
+  
+  ;;TODO: make this better
+  (em/at js/document [:#content] (em/append (crate/html [:div#recipe-box])))
+  (state/trigger recipes-contr/recipe-box :change-recipe 2)
   )
   
-
 ;;TODO: put mode elsewhere
 (main :dev)
 
