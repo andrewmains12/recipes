@@ -51,10 +51,16 @@
    })
 
 (em/deftemplate recipe-template "/templates/recipes/recipe" ;[:div.recipe]
-  [{:keys [title ingredients instructions]}]
+  [{:keys [title ingredients instructions image]}]
   [:h2] (em/content title)
-  ["div#ingredients"] (em/append
-                       (map #(ingredient-template %) ingredients))
+  [:img] (em/set-attr :src image)
+  ["div#ingredients ul"] (em/append
+                          (map #(ingredient-template %) ingredients))
+                            
+  ["div#instructions ul"] (em/append
+                           (map #(instruction-template %) instructions))
+  )
+
 
   ["div#instructions"] (em/append
                         (map #(instruction-template %) instructions))
