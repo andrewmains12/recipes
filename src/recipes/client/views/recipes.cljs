@@ -34,9 +34,9 @@
 
 
 (em/deftemplate recipe-template "/templates/recipes/recipe" ;[:div.recipe]
-  [{:keys [title ingredients instructions image-url]}]
+  [{:keys [title ingredients instructions image]}]
   [:h2] (em/content title)
-  ;; [:img] (em/set-attr :src image-url)
+  [:img] (em/set-attr :src image)
   ["div#ingredients ul"] (em/append
                           (map #(ingredient-template %) ingredients))
                             
