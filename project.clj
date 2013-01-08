@@ -16,8 +16,11 @@
                  [enfocus "1.0.0-beta2"]
                  [one "1.0.0-SNAPSHOT"]
                  ]
-  :cljsbuild {:builds [{}]}
-  :source-paths ["src" "static-hiccup"]
+  :cljsbuild {:builds {:dev {:notify-command ["open" "project.clj.txt"]}}}
+  :source-paths ["src" "static-hiccup"
+                 "../clojurescript/src/clj"
+                 "../clojurescript/src/cljs"
+                 ]
   :main ^{:skip-aot true} recipes.server
   )
 
