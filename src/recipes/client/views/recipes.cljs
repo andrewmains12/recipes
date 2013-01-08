@@ -33,7 +33,7 @@
   )
 
 
-(em/deftemplate recipe-template "/templates/recipes/recipe" ;[:div.recipe]
+(em/deftemplate recipe-template "/templates/recipes/recipe" 
   [{:keys [title ingredients instructions image]}]
   [:h2] (em/content title)
   [:img] (em/set-attr :src image)
@@ -44,8 +44,14 @@
                            (map #(instruction-template %) instructions))
   )
 
-(em/deftemplate recipes-index "/templates/recipes/index"
+(em/deftemplate recipe-index "/templates/recipes/index"
   [recipes]
+  [:select] (em/chain
+             (em/append
+              (for [[id name] recipes]
+                (crate/html [:option {:value id} name])))
+             (em/set-attr :size (count recipes)))
+  
 )  
 ;; (em/defaction render-recipe [recipe]  
 ;;    (em/append (:title recipe)))
@@ -73,9 +79,12 @@
                                               (recipe-template (->str-values recipe)))
                            )))
 
-(defmethod render-recipe-box :default
-  [sm & rest]
+(defn sm-render-default [sm & rest]
   (js/alert (str "Unknown state!" (state/current sm))))
+
+(defmethod render-recipe-box :default
+  [& params]
+  (apply sm-render-default params))
 
 
 ;; (defrender "recipe-index"
@@ -85,10 +94,24 @@
   #(state/current %))
 
 (defmethod render-recipe-index #{:unselected}
-  [_ recipes]
-  (em/wait-for-load (em/at js/document
-                           [:div#recipes-index] (em/content
-                                                 (recipe-index (->str-values recipes))
-                                                 )
-                           )))
+  [_ recipe-list]
+;  (js/alert (str @sm " " recipes))
+  (em/wait-for-load
+   (em/at js/document
+          [:#recipe-index] (em/content
+                            (recipe-index (->str-values recipe-list))
+                            )
+          ))
+  )
+
+(defmethod render-recipe-index #{:selected}
   
+  )
+(defmethod render-recipe-index #{:loading}
+  [_]
+  
+  )
+
+(defmethod render-recipe-index :default
+  [& params]
+  (apply sm-render-default params))

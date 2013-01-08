@@ -64,3 +64,7 @@
 (defelem recipe-box []
   [:div#recipe-box
    [:ipsum (recipe)]])
+
+(defelem index []
+   [:select])
+   

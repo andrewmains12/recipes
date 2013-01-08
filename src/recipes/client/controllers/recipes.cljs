@@ -3,11 +3,13 @@
   (:require [fetch.remotes :as remotes]
             [waltz.state :as state])
 
-  (:require-macros [fetch.macros :as fm])
+  (:require-macros [fetch.macros :as fm]
+                   [enfocus.macros :as em]
+                   )
   (:use-macros [waltz.macros :only [in out defstate defevent]]
                [fetch.macros :only [letrem remote]]
                )
-  (:use [recipes.client.views.recipes :only [render-recipe-box]]))
+  (:use [recipes.client.views.recipes :only [render-recipe-box render-recipe-index]]))
   
   
 ;;TODO: DRY state machine definitions up with a macro  
@@ -35,7 +37,12 @@
     me))
 
 
-
+;; (defn add-listeners []
+;;   (em/at js/document
+;;          ["#recipe-index option"] (em/listen :click
+;;                                              (fn [node]
+;;                                                (js/alert (.-currentTarget node)))
+;;                                              )))
 
 (def recipe-index
   (let [me (state/machine "recipe-list")
@@ -48,12 +55,12 @@
     (defstate me :unselected
       (in [recipe-list]
           (render me recipe-list)
+          ;; (add-listeners)
           ))
 
     (defstate me :selected
       (in [recipe-id]
           (render me recipe-id)))
-
 
     (defevent me :select [recipe-id]
       (state/unset me :unselected)
