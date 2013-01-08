@@ -11,7 +11,7 @@
                )
   (:use [recipes.client.views.recipes :only [render-recipe-box render-recipe-index]]))
   
-  
+
 ;;TODO: DRY state machine definitions up with a macro  
 (def recipe-box
   (let [me (state/machine "recipe-box")
@@ -27,6 +27,7 @@
     
     ;;Events
     (defevent me :change-recipe [new-recipe-id]
+      (state/unset me :normal)
       (state/set me :loading)      
       (remote (recipe new-recipe-id) [new-recipe]
               (state/trigger me :loaded new-recipe)))
@@ -37,12 +38,7 @@
     me))
 
 
-;; (defn add-listeners []
-;;   (em/at js/document
-;;          ["#recipe-index option"] (em/listen :click
-;;                                              (fn [node]
-;;                                                (js/alert (.-currentTarget node)))
-;;                                              )))
+(declare add-listeners)
 
 (def recipe-index
   (let [me (state/machine "recipe-list")
@@ -54,8 +50,9 @@
 
     (defstate me :unselected
       (in [recipe-list]
-          (render me recipe-list)
-          ;; (add-listeners)
+          (em/wait-for-load
+           (render me recipe-list)
+           (add-listeners))
           ))
 
     (defstate me :selected
@@ -82,3 +79,12 @@
       (state/set me :unselected recipe-list)
       )
     me))
+
+(em/defaction add-listeners []  
+  ["#recipe-index option"] (em/listen :click
+                                      (fn [event]
+                                        (state/trigger recipe-index :select
+                                             (int (em/from (.-currentTarget event)
+                                                           (em/get-attr :value)))
+                                                       ))
+                                      ))

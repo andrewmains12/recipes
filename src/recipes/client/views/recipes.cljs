@@ -8,7 +8,6 @@
   (:require-macros [enfocus.macros :as em])
   (:use [jayq.core :only [$ append text html]]
         [waltz.state :only [trigger]]
-;        [recipes.client.controllers.recipes :only [sm]]
         )    
   (:use-macros [crate.def-macros :only [defpartial]]))
 
@@ -75,37 +74,32 @@
 (defmethod render-recipe-box #{:normal}
   [_ recipe]
   (em/wait-for-load (em/at js/document
-                           [:div#recipe-box] (em/content
-                                              (recipe-template (->str-values recipe)))
-                           )))
+         [:div#recipe-box] (em/content
+                            (recipe-template (->str-values recipe)))
+         )))
 
-(defn sm-render-default [sm & rest]
-  (js/alert (str "Unknown state!" (state/current sm))))
+;; (defmacro sm-render-default [fn-name]
+;;   [sm & rest]
+;;   (js/alert (str "Unknown state!" (state/current sm))))
 
-(defmethod render-recipe-box :default
+(defmethod render-recipe-box :default  
   [& params]
-  (apply sm-render-default params))
-
-
-;; (defrender "recipe-index"
-;;   (render-state #{:normal} [recipe]
+  (js/alert (str "render-recipe-box: Unknown state!" (state/current sm))))
                                 
 (defmulti render-recipe-index 
   #(state/current %))
 
 (defmethod render-recipe-index #{:unselected}
   [_ recipe-list]
-;  (js/alert (str @sm " " recipes))
-  (em/wait-for-load
-   (em/at js/document
-          [:#recipe-index] (em/content
-                            (recipe-index (->str-values recipe-list))
-                            )
-          ))
+  (em/at js/document
+         [:#recipe-index] (em/content (recipe-index (->str-values recipe-list))))
   )
 
+
+
+
 (defmethod render-recipe-index #{:selected}
-  
+  []
   )
 (defmethod render-recipe-index #{:loading}
   [_]
@@ -114,4 +108,5 @@
 
 (defmethod render-recipe-index :default
   [& params]
-  (apply sm-render-default params))
+  (js/alert (str "render-recipe-index: Unknown state!" (state/current sm))))
+

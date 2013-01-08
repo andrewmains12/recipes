@@ -37,7 +37,7 @@
   (em/at js/document [:#content] (em/do-> (em/append (crate/html [:div#recipe-box]))
                                            (em/append (crate/html [:div#recipe-index]))
                                         ))
-;  (state/trigger recipes-contr/recipe-index :refresh-recipes)
+  (state/trigger recipes-contr/recipe-index :refresh-recipes)
   (state/trigger recipes-contr/recipe-box :change-recipe 2) ;;TODO: select recipe based on server
   )
   

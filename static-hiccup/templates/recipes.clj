@@ -18,8 +18,6 @@
 (def ipsum-img "http://www.google.com/url?source=imglanding&ct=img&q=http://blogchef.net/wp-content/uploads/2011/03/cajunchcikenalternate.jpg&sa=X&ei=WhjiUO6xKYGg8gSc04DwBw&ved=0CAkQ8wc&usg=AFQjCNGzi9fB6fs5HiiFAR-A0btSxSD27w")
 
 
-
-
 (defelem picture []
   [:img {:src ipsum-img}]
   )
@@ -55,9 +53,9 @@
    [:div#picture
     [:img]
     [:ipsum
-     (picture)]
+     [:img {:src ipsum-img}]
     ]
-    ])
+    ]])
 
 
 
