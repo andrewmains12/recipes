@@ -27,7 +27,7 @@
   :test-paths ["spec/"]
                   
   :source-paths ["src" "static-hiccup"
-                 ;;Latest cljs release
+                 ;;Use cljs from git-deps
                  ".lein-git-deps/clojurescript/src/clj"
                  ".lein-git-deps/clojurescript/src/cljs"
                  ]
