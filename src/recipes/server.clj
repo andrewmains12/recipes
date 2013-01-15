@@ -3,9 +3,8 @@
             [noir.cljs.core :as cljs]
 
             )
-  (:use [one.templates :only [apply-templates]]
-        [recipes.utils.static-hiccup :only [wrap-static-reloading]]
-        )
+  (:use [recipes.utils.static-hiccup :only [wrap-static-reloading]])
+        
   )
 
 (server/load-views-ns 'recipes.views)

@@ -14,7 +14,6 @@
                  [waltz "0.1.0-alpha1"]
                  [crate "0.2.3"]
                  [enfocus "1.0.0-beta2"]
-                 [one "1.0.0-SNAPSHOT"]
                  ]
   :cljsbuild {:builds {:dev {:notify-command ["open" "project.clj.txt"]}}}
   :source-paths ["src" "static-hiccup"
