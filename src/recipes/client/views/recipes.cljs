@@ -98,10 +98,17 @@
 
 
 
+(em/defaction unselect-recipe []
+  ["#recipe-index [selected]"] (em/remove-attr :selected))
+  
 
 (defmethod render-recipe-index #{:selected}
-  []
+  [_ recipe-node]
+  (unselect-recipe)
+  (em/at recipe-node
+         (em/set-attr :selected "true"))
   )
+
 (defmethod render-recipe-index #{:loading}
   [_]
   

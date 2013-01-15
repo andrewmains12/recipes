@@ -56,16 +56,16 @@
           ))
 
     (defstate me :selected
-      (in [recipe-id]
-          (render me recipe-id)))
+      (in [recipe-node]
+          (render me recipe-node)))
 
-    (defevent me :select [recipe-id]
+    (defevent me :select [recipe-node]
       (state/unset me :unselected)
-      (state/set me :selected recipe-id)
-      (state/trigger recipe-box
-                     :change-recipe recipe-id)
-      )
+      (state/set me :selected recipe-node)
+      (state/trigger recipe-box :change-recipe
+                     (int (em/from recipe-node (em/get-attr :value))))
 
+      )
 
     (defevent me :refresh-recipes [] ;;Possibly take category here
       (state/unset me :selected)
@@ -84,7 +84,6 @@
   ["#recipe-index option"] (em/listen :click
                                       (fn [event]
                                         (state/trigger recipe-index :select
-                                             (int (em/from (.-currentTarget event)
-                                                           (em/get-attr :value)))
+                                                       (.-currentTarget event)         
                                                        ))
                                       ))
