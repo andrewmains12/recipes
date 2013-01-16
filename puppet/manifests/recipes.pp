@@ -21,6 +21,9 @@ class recipes($user) {
 
 }
 
+
+
 class {'recipes':
-  user => 'vagrant'  #TODO: something different here
+  user => 'vagrant',
 }
+
