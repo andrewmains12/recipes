@@ -60,6 +60,9 @@ Vagrant::Config.run do |config|
     puppet.module_path = "puppet/modules"
   end
 
+
+  config.vm.customize ["modifyvm", :id, "--memory", 1024]
+
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding 
   # some recipes and/or roles.

@@ -4,6 +4,11 @@ class recipes($user) {
   class {'clojurescript::dev_env':
     user => $user
   }
+
+  package {"ubuntu-desktop":
+    ensure => present,    
+  }
+  
   exec {"recipes":
     require => Package["git-core"],
     cwd => $recipes::home,
